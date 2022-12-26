@@ -280,8 +280,15 @@ We can make the LED pin output high level and low level to make the LED flash.
 
 1.  **Test Code**
 
-| from machine import Pin import time  led = Pin(12, Pin.OUT)\# Build an LED object, connect the external LED light to pin 0, and set pin 0 to output mode while True:  led.value(1)\# turn on led  time.sleep(1)\# delay 1s  led.value(0)\# turn off led  time.sleep(1)\# delay 1s |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        from machine import Pin
+        import time
+
+        led = Pin(12, Pin.OUT)# Build an LED object, connect the external LED light to pin 0, and set pin 0 to output mode
+        while True:
+            led.value(1)# turn on led
+            time.sleep(1)# delay 1s
+            led.value(0)# turn off led
+            time.sleep(1)# delay 1s
 
 1.  Open the sample code
 
@@ -309,8 +316,29 @@ It makes sense to take advantage of PWM. Output the number of high level and low
 
 1.  **Test Code**
 
-| import time from machine import Pin,PWM  \#The way that the ESP32 PWM pins output is different from traditionally controllers. \#It can change frequency and duty cycle by configuring PWM’s parameters at the initialization stage. \#Define GPIO 0’s output frequency as 10000Hz and its duty cycle as 0, and assign them to PWM. pwm =PWM(Pin(12,Pin.OUT),10000,0)  try:  while True:  \#The range of duty cycle is 0-1023, so we use the first for loop to control PWM to change the duty \#cycle value,making PWM output 0% -100%; Use the second for loop to make PWM output 100%-0%.   for i in range(0,1023):  pwm.duty(i)  time.sleep_ms(1)    for i in range(0,1023):  pwm.duty(1023-i)  time.sleep_ms(1)  except: \#Each time PWM is used, the hardware Timer will be turned ON to cooperate it. Therefore, after each use of PWM, \#deinit() needs to be called to turned OFF the timer. Otherwise, the PWM may fail to work next time.  pwm.deinit()   |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        import time
+        from machine import Pin,PWM
+
+        #The way that the ESP32 PWM pins output is different from traditionally controllers.
+        #It can change frequency and duty cycle by configuring PWM’s parameters at the initialization stage.
+        #Define GPIO 0’s output frequency as 10000Hz and its duty cycle as 0, and assign them to PWM.
+        pwm =PWM(Pin(12,Pin.OUT),10000,0)
+
+        try:
+            while True: 
+        #The range of duty cycle is 0-1023, so we use the first for loop to control PWM to change the duty
+        #cycle value,making PWM output 0% -100%; Use the second for loop to make PWM output 100%-0%.  
+                for i in range(0,1023):
+                    pwm.duty(i)
+                    time.sleep_ms(1)
+                    
+                for i in range(0,1023):
+                    pwm.duty(1023-i)
+                    time.sleep_ms(1)  
+        except:
+        #Each time PWM is used, the hardware Timer will be turned ON to cooperate it. Therefore, after each use of PWM,
+        #deinit() needs to be called to turned OFF the timer. Otherwise, the PWM may fail to work next time.
+            pwm.deinit()
 
 1.  **Test Result**
 
@@ -346,8 +374,15 @@ We will work to read the status value of the button and display it on the serial
 
 **2. Test Code**
 
-| button1 = Pin(16, Pin.IN, Pin.PULL_UP) button2 = Pin(27, Pin.IN, Pin.PULL_UP)  while True:  btnVal1 = button1.value() \# Reads the value of button 1  btnVal2 = button2.value()  print("button1 =",btnVal1) \#Print it out in the shell  print("button2 =",btnVal2)  time.sleep(0.1) \#delay 0.1s |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        button1 = Pin(16, Pin.IN, Pin.PULL_UP)
+        button2 = Pin(27, Pin.IN, Pin.PULL_UP)
+
+        while True:
+            btnVal1 = button1.value()  # Reads the value of button 1
+            btnVal2 = button2.value()
+            print("button1 =",btnVal1)  #Print it out in the shell
+            print("button2 =",btnVal2)
+            time.sleep(0.1) #delay 0.1s
 
 **3. Test Result**
 
@@ -365,8 +400,29 @@ For common simple table lamp, click the button it will be opened, click it again
 
 Calculate the clicked button times and take the remainder of 2, you can get 0 or 1 two state values.
 
-| from machine import Pin import time  button1 = Pin(16, Pin.IN, Pin.PULL_UP) led = Pin(12, Pin.OUT) count = 0  while True:  btnVal1 = button1.value() \# Reads the value of button 1  \#print("button1 =",btnVal1) \#Print it out in the shell  if(btnVal1 == 0):  time.sleep(0.01)  while(btnVal1 == 0):  btnVal1 = button1.value()  if(btnVal1 == 1):  count = count + 1  print(count)  val = count % 2  if(val == 1):  led.value(1)  else:  led.value(0)  time.sleep(0.1) \#delay 0.1s |
-|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    from machine import Pin
+    import time
+
+    button1 = Pin(16, Pin.IN, Pin.PULL_UP)
+    led = Pin(12, Pin.OUT)
+    count = 0
+
+    while True:
+        btnVal1 = button1.value()  # Reads the value of button 1
+        #print("button1 =",btnVal1)  #Print it out in the shell
+        if(btnVal1 == 0):
+            time.sleep(0.01)
+            while(btnVal1 == 0):
+                btnVal1 = button1.value()
+                if(btnVal1 == 1):
+                    count = count + 1
+                    print(count)
+        val = count % 2
+        if(val == 1):
+            led.value(1)
+        else:
+            led.value(0)
+        time.sleep(0.1) #delay 0.1s
 
 1.  **Test Result**
 
@@ -397,8 +453,18 @@ We will print out the value of the PIR motion sensor through the serial monitor.
 
 1.  **Test Code**
 
-| from machine import Pin import time  PIR = Pin(14, Pin.IN) while True:  value = PIR.value()  print(value, end = " ")  if value == 1:  print("Some body is in this area!")  else:  print("No one!")  time.sleep(0.1)  |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        from machine import Pin
+        import time
+
+        PIR = Pin(14, Pin.IN)
+        while True:
+            value = PIR.value()
+            print(value, end = " ")
+            if value == 1:
+                print("Some body is in this area!")
+            else:
+                print("No one!")
+            time.sleep(0.1)
 
 1.  **Test Result**
 
@@ -412,8 +478,20 @@ If someone moves in front of the sensor, the LED will light up.
 
 1.  **Test Code**
 
-| from machine import Pin import time  PIR = Pin(14, Pin.IN) led = Pin(12, Pin.OUT)  while True:  value = PIR.value()  print(value)  if value == 1:  led.value(1)\# turn on led  else:  led.value(0)  time.sleep(0.1) |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        from machine import Pin
+        import time
+
+        PIR = Pin(14, Pin.IN)
+        led = Pin(12, Pin.OUT)
+
+        while True:
+            value = PIR.value()
+            print(value)
+            if value == 1:
+                led.value(1)# turn on led
+            else:
+                led.value(0)
+            time.sleep(0.1)
 
 1.  **Test Result**
 
@@ -442,8 +520,56 @@ In this project, we will work to play a piece of music by using it.
 
 **1. Test Code**
 
-| from machine import Pin, PWM from time import sleep buzzer = PWM(Pin(25))  buzzer.duty(1000)   \# Happy birthday buzzer.freq(294) sleep(0.25) buzzer.freq(440) sleep(0.25) buzzer.freq(392) sleep(0.25) buzzer.freq(532) sleep(0.25) buzzer.freq(494) sleep(0.25) buzzer.freq(392) sleep(0.25) buzzer.freq(440) sleep(0.25) buzzer.freq(392) sleep(0.25) buzzer.freq(587) sleep(0.25) buzzer.freq(532) sleep(0.25) buzzer.freq(392) sleep(0.25) buzzer.freq(784) sleep(0.25) buzzer.freq(659) sleep(0.25) buzzer.freq(532) sleep(0.25) buzzer.freq(494) sleep(0.25) buzzer.freq(440) sleep(0.25) buzzer.freq(698) sleep(0.25) buzzer.freq(659) sleep(0.25) buzzer.freq(532) sleep(0.25) buzzer.freq(587) sleep(0.25) buzzer.freq(532) sleep(0.5) buzzer.duty(0) |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    from machine import Pin, PWM
+    from time import sleep
+    buzzer = PWM(Pin(25))
+
+    buzzer.duty(1000) 
+
+    # Happy birthday
+    buzzer.freq(294)
+    sleep(0.25)
+    buzzer.freq(440)
+    sleep(0.25)
+    buzzer.freq(392)
+    sleep(0.25)
+    buzzer.freq(532)
+    sleep(0.25)
+    buzzer.freq(494)
+    sleep(0.25)
+    buzzer.freq(392)
+    sleep(0.25)
+    buzzer.freq(440)
+    sleep(0.25)
+    buzzer.freq(392)
+    sleep(0.25)
+    buzzer.freq(587)
+    sleep(0.25)
+    buzzer.freq(532)
+    sleep(0.25)
+    buzzer.freq(392)
+    sleep(0.25)
+    buzzer.freq(784)
+    sleep(0.25)
+    buzzer.freq(659)
+    sleep(0.25)
+    buzzer.freq(532)
+    sleep(0.25)
+    buzzer.freq(494)
+    sleep(0.25)
+    buzzer.freq(440)
+    sleep(0.25)
+    buzzer.freq(698)
+    sleep(0.25)
+    buzzer.freq(659)
+    sleep(0.25)
+    buzzer.freq(532)
+    sleep(0.25)
+    buzzer.freq(587)
+    sleep(0.25)
+    buzzer.freq(532)
+    sleep(0.5)
+    buzzer.duty(0)
 
 **2. Test Result**
 
@@ -485,8 +611,30 @@ In general, servo has three lines in brown, red and orange. The brown wire is gr
 
 **1. Test Code**
 
-| from machine import Pin, PWM import time pwm = PWM(Pin(13))  pwm.freq(50)  ''' Duty cycle corresponding to the Angle 0°----2.5%----25 45°----5%----51.2 90°----7.5%----77 135°----10%----102.4 180°----12.5%----128 ''' angle_0 = 25 angle_90 = 77 angle_180 = 128  while True:  pwm.duty(angle_0)  time.sleep(1)  pwm.duty(angle_90)  time.sleep(1)  pwm.duty(angle_180)  time.sleep(1) |
-|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    from machine import Pin, PWM
+    import time
+    pwm = PWM(Pin(13))  
+    pwm.freq(50)
+
+    '''
+    Duty cycle corresponding to the Angle
+    0°----2.5%----25
+    45°----5%----51.2
+    90°----7.5%----77
+    135°----10%----102.4
+    180°----12.5%----128
+    '''
+    angle_0 = 25
+    angle_90 = 77
+    angle_180 = 128
+
+    while True:
+        pwm.duty(angle_0)
+        time.sleep(1)
+        pwm.duty(angle_90)
+        time.sleep(1)
+        pwm.duty(angle_180)
+        time.sleep(1)
 
 **2. Test Result**
 
@@ -504,8 +652,32 @@ We will work to use a servo and a raindrop sensor to make an device closing wind
 
 1.  **Test Code**
 
-| \# Import Pin, ADC and DAC modules. from machine import ADC,Pin,DAC,PWM import time pwm = PWM(Pin(5))  pwm.freq(50)  \# Turn on and configure the ADC with the range of 0-3.3V  adc=ADC(Pin(34)) adc.atten(ADC.ATTN_11DB) adc.width(ADC.WIDTH_12BIT)  \# Read ADC value once every 0.1seconds, convert ADC value to DAC value and output it, \# and print these data to “Shell”.  try:  while True:  adcVal=adc.read()  dacVal=adcVal//16  voltage = adcVal / 4095.0 \* 3.3  print("ADC Val:",adcVal,"DACVal:",dacVal,"Voltage:",voltage,"V")  if(voltage \> 0.6):  pwm.duty(46)  else:  pwm.duty(100)  time.sleep(0.1) except:  pass |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        # Import Pin, ADC and DAC modules.
+        from machine import ADC,Pin,DAC,PWM
+        import time
+        pwm = PWM(Pin(5))  
+        pwm.freq(50)
+
+        # Turn on and configure the ADC with the range of 0-3.3V 
+        adc=ADC(Pin(34))
+        adc.atten(ADC.ATTN_11DB)
+        adc.width(ADC.WIDTH_12BIT)
+
+        # Read ADC value once every 0.1seconds, convert ADC value to DAC value and output it,
+        # and print these data to “Shell”. 
+        try:
+            while True:
+                adcVal=adc.read()
+                dacVal=adcVal//16
+                voltage = adcVal / 4095.0 * 3.3
+                print("ADC Val:",adcVal,"DACVal:",dacVal,"Voltage:",voltage,"V")
+                if(voltage > 0.6):
+                    pwm.duty(46)
+                else:
+                    pwm.duty(100)
+                time.sleep(0.1)
+        except:
+            pass
 
 1.  **Test Result**
 
@@ -540,8 +712,32 @@ We will control SK6812 to display various lighting effects.
 
 **1. Test Code**
 
-| \#Import Pin, neopiexl and time modules. from machine import Pin import neopixel import time  \#Define the number of pin and LEDs connected to neopixel. pin = Pin(26, Pin.OUT) np = neopixel.NeoPixel(pin, 4)   \#brightness :0-255 brightness=100  colors=[[brightness,0,0], \#red  [0,brightness,0], \#green  [0,0,brightness], \#blue  [brightness,brightness,brightness], \#white  [0,0,0]] \#close  \#Nest two for loops to make the module repeatedly display five states of red, green, blue, white and OFF.  while True:  for i in range(0,5):  for j in range(0,4):  np[j]=colors[i]  np.write()  time.sleep_ms(50)  time.sleep_ms(500)  time.sleep_ms(500) |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    #Import Pin, neopiexl and time modules.
+    from machine import Pin
+    import neopixel
+    import time
+
+    #Define the number of pin and LEDs connected to neopixel.
+    pin = Pin(26, Pin.OUT)
+    np = neopixel.NeoPixel(pin, 4) 
+
+    #brightness :0-255
+    brightness=100                                
+    colors=[[brightness,0,0],                    #red
+            [0,brightness,0],                    #green
+            [0,0,brightness],                    #blue
+            [brightness,brightness,brightness],  #white
+            [0,0,0]]                             #close
+
+    #Nest two for loops to make the module repeatedly display five states of red, green, blue, white and OFF.    
+    while True:
+        for i in range(0,5):
+            for j in range(0,4):
+                np[j]=colors[i]
+                np.write()
+                time.sleep_ms(50)
+            time.sleep_ms(500)
+        time.sleep_ms(500)
 
 **2. Test Result**
 
@@ -555,8 +751,69 @@ There are two switch buttons to change the color of the atmosphere lamp.
 
 1.  **Test Code**
 
-| \#Import Pin, neopiexl and time modules. from machine import Pin import neopixel import time  button1 = Pin(16, Pin.IN, Pin.PULL_UP) button2 = Pin(27, Pin.IN, Pin.PULL_UP) count = 0  \#Define the number of pin and LEDs connected to neopixel. pin = Pin(26, Pin.OUT) np = neopixel.NeoPixel(pin, 4)   \#brightness :0-255 brightness=100  colors=[[0,0,0],  [brightness,0,0], \#red  [0,brightness,0], \#green  [0,0,brightness], \#blue  [brightness,brightness,brightness] \#white  ] \#close  def func_color(val):  for j in range(0,4):  np[j]=colors[val]  np.write()  time.sleep_ms(50)   \#Nest two for loops to make the module repeatedly display five states of red, green, blue, white and OFF.  while True:  btnVal1 = button1.value() \# Reads the value of button 1  \#print("button1 =",btnVal1) \#Print it out in the shell  if(btnVal1 == 0):  time.sleep(0.01)  while(btnVal1 == 0):  btnVal1 = button1.value()  if(btnVal1 == 1):  count = count - 1  print(count)  if(count \<= 0):  count = 0    btnVal2 = button2.value()   if(btnVal2 == 0):  time.sleep(0.01)  while(btnVal2 == 0):  btnVal2 = button2.value()  if(btnVal2 == 1):  count = count + 1  print(count)  if(count \>= 4):  count = 4    if(count == 0):  func_color(0)  elif(count == 1):  func_color(1)  elif(count == 2):  func_color(2)  elif(count == 3):  func_color(3)  elif(count == 4):  func_color(4) |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        #Import Pin, neopiexl and time modules.
+        from machine import Pin
+        import neopixel
+        import time
+
+        button1 = Pin(16, Pin.IN, Pin.PULL_UP)
+        button2 = Pin(27, Pin.IN, Pin.PULL_UP)
+        count = 0
+
+        #Define the number of pin and LEDs connected to neopixel.
+        pin = Pin(26, Pin.OUT)
+        np = neopixel.NeoPixel(pin, 4) 
+
+        #brightness :0-255
+        brightness=100                                
+        colors=[[0,0,0],
+                [brightness,0,0],                    #red
+                [0,brightness,0],                    #green
+                [0,0,brightness],                    #blue
+                [brightness,brightness,brightness]  #white
+                ]                             #close
+
+        def func_color(val):
+            for j in range(0,4):
+                np[j]=colors[val]
+                np.write()
+                time.sleep_ms(50)
+                
+        #Nest two for loops to make the module repeatedly display five states of red, green, blue, white and OFF.    
+        while True:
+            btnVal1 = button1.value()  # Reads the value of button 1
+            #print("button1 =",btnVal1)  #Print it out in the shell
+            if(btnVal1 == 0):
+                time.sleep(0.01)
+                while(btnVal1 == 0):
+                    btnVal1 = button1.value()
+                    if(btnVal1 == 1):
+                        count = count - 1
+                        print(count)
+                        if(count <= 0):
+                            count = 0
+                        
+            btnVal2 = button2.value()        
+            if(btnVal2 == 0):
+                time.sleep(0.01)
+                while(btnVal2 == 0):
+                    btnVal2 = button2.value()
+                    if(btnVal2 == 1):
+                        count = count + 1
+                        print(count)
+                        if(count >= 4):
+                            count = 4
+            
+            if(count == 0):
+                func_color(0)
+            elif(count == 1):
+                func_color(1)
+            elif(count == 2):
+                func_color(2)
+            elif(count == 3):
+                func_color(3)
+            elif(count == 4):
+                func_color(4)
 
 1.  **Test Result**
 
@@ -595,8 +852,35 @@ We can control the [anticlockwise](C:/Users/NINGMEI/AppData/Local/youdao/dict/Ap
 
 **1. Test Code**
 
-| from machine import Pin,PWM import time \#Two pins of the motor INA =PWM(Pin(19,Pin.OUT),10000,0)\#INA corresponds to IN+ INB =PWM(Pin(18,Pin.OUT),10000,2)\#INB corresponds to IN-   try:  while True:  \#Counterclockwise 2s  INA.duty(0) \#The range of duty cycle is 0-1023  INB.duty(700)  time.sleep(2)  \#stop 1s  INA.duty(0)  INB.duty(0)  time.sleep(1)  \#Turn clockwise for 2s  INA.duty(600)  INB.duty(0)  time.sleep(2)  \#stop 1s  INA.duty(0)  INB.duty(0)  time.sleep(1) except:  INA.duty(0)  INB.duty(0)  INA.deinit()  INB.deinit() |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    from machine import Pin,PWM
+    import time
+    #Two pins of the motor
+    INA =PWM(Pin(19,Pin.OUT),10000,0)#INA corresponds to IN+
+    INB =PWM(Pin(18,Pin.OUT),10000,2)#INB corresponds to IN- 
+
+    try:
+        while True:
+            #Counterclockwise 2s
+            INA.duty(0) #The range of duty cycle is 0-1023
+            INB.duty(700)
+            time.sleep(2)
+            #stop 1s
+            INA.duty(0)
+            INB.duty(0)
+            time.sleep(1)
+            #Turn clockwise for 2s
+            INA.duty(600)
+            INB.duty(0)
+            time.sleep(2)
+            #stop 1s
+            INA.duty(0)
+            INB.duty(0)
+            time.sleep(1)
+    except:
+        INA.duty(0)
+        INB.duty(0)
+        INA.deinit()
+        INB.deinit()
 
 **2. Test Result**
 
@@ -610,8 +894,36 @@ One button switches the fan on and the other button controls the speed of the fa
 
 **1. Test Code**
 
-| from machine import Pin,PWM import time \#Two pins of the motor INA =PWM(Pin(19,Pin.OUT),10000,0)\#INA corresponds to IN+ INB =PWM(Pin(18,Pin.OUT),10000,2)\#INB corresponds to IN- button1 = Pin(16, Pin.IN, Pin.PULL_UP) count = 0  try:  while True:  btnVal1 = button1.value() \# Reads the value of button 1  if(btnVal1 == 0):  time.sleep(0.01)  while(btnVal1 == 0):  btnVal1 = button1.value()  if(btnVal1 == 1):  count = count + 1  print(count)  val = count % 2  if(val == 1):  INA.duty(0) \#The range of duty cycle is 0-1023  INB.duty(700)  else:  INA.duty(0)  INB.duty(0) except:  INA.duty(0)  INB.duty(0)  INA.deinit()  INB.deinit() |
-|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    from machine import Pin,PWM
+    import time
+    #Two pins of the motor
+    INA =PWM(Pin(19,Pin.OUT),10000,0)#INA corresponds to IN+
+    INB =PWM(Pin(18,Pin.OUT),10000,2)#INB corresponds to IN-
+    button1 = Pin(16, Pin.IN, Pin.PULL_UP)
+    count = 0
+
+    try:
+        while True:
+            btnVal1 = button1.value()  # Reads the value of button 1
+            if(btnVal1 == 0):
+                time.sleep(0.01)
+                while(btnVal1 == 0):
+                    btnVal1 = button1.value()
+                    if(btnVal1 == 1):
+                        count = count + 1
+                        print(count)
+            val = count % 2
+            if(val == 1):
+                INA.duty(0) #The range of duty cycle is 0-1023
+                INB.duty(700)
+            else:
+                INA.duty(0)
+                INB.duty(0)
+    except:
+        INA.duty(0)
+        INB.duty(0)
+        INA.deinit()
+        INB.deinit()
 
 **2. Test Result**
 
@@ -661,8 +973,51 @@ The saved name id i2c_lcd.py and lcd_api.py
 
 1.  **Test Code**
 
-| from time import sleep_ms, ticks_ms  from machine import I2C, Pin  from i2c_lcd import I2cLcd   DEFAULT_I2C_ADDR = 0x27  i2c = I2C(scl=Pin(22), sda=Pin(21), freq=400000)  lcd = I2cLcd(i2c, DEFAULT_I2C_ADDR, 2, 16)  lcd.move_to(1, 0) lcd.putstr('Hello') lcd.move_to(1, 1) lcd.putstr('keyestudio')  \# The following line of code should be tested \# using the REPL:  \# 1. To print a string to the LCD: \# lcd.putstr('Hello world') \# 2. To clear the display: \#lcd.clear() \# 3. To control the cursor position: \# lcd.move_to(2, 1) \# 4. To show the cursor: \# lcd.show_cursor() \# 5. To hide the cursor: \#lcd.hide_cursor() \# 6. To set the cursor to blink: \#lcd.blink_cursor_on() \# 7. To stop the cursor on blinking: \#lcd.blink_cursor_off() \# 8. To hide the currently displayed character: \#lcd.display_off() \# 9. To show the currently hidden character: \#lcd.display_on() \# 10. To turn off the backlight: \#lcd.backlight_off() \# 11. To turn ON the backlight: \#lcd.backlight_on() \# 12. To print a single character: \#lcd.putchar('x') \# 13. To print a custom character: \#happy_face = bytearray([0x00, 0x0A, 0x00, 0x04, 0x00, 0x11, 0x0E, 0x00]) \#lcd.custom_char(0, happy_face) \#lcd.putchar(chr(0))  |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+        from time import sleep_ms, ticks_ms 
+        from machine import I2C, Pin 
+        from i2c_lcd import I2cLcd 
+
+        DEFAULT_I2C_ADDR = 0x27
+
+        i2c = I2C(scl=Pin(22), sda=Pin(21), freq=400000) 
+        lcd = I2cLcd(i2c, DEFAULT_I2C_ADDR, 2, 16)
+
+        lcd.move_to(1, 0)
+        lcd.putstr('Hello')
+        lcd.move_to(1, 1)
+        lcd.putstr('keyestudio')
+
+        # The following line of code should be tested
+        # using the REPL:
+
+        # 1. To print a string to the LCD:
+        #    lcd.putstr('Hello world')
+        # 2. To clear the display:
+        #lcd.clear()
+        # 3. To control the cursor position:
+        # lcd.move_to(2, 1)
+        # 4. To show the cursor:
+        # lcd.show_cursor()
+        # 5. To hide the cursor:
+        #lcd.hide_cursor()
+        # 6. To set the cursor to blink:
+        #lcd.blink_cursor_on()
+        # 7. To stop the cursor on blinking:
+        #lcd.blink_cursor_off()
+        # 8. To hide the currently displayed character:
+        #lcd.display_off()
+        # 9. To show the currently hidden character:
+        #lcd.display_on()
+        # 10. To turn off the backlight:
+        #lcd.backlight_off()
+        # 11. To turn ON the backlight:
+        #lcd.backlight_on()
+        # 12. To print a single character:
+        #lcd.putchar('x')
+        # 13. To print a custom character:
+        #happy_face = bytearray([0x00, 0x0A, 0x00, 0x04, 0x00, 0x11, 0x0E, 0x00])
+        #lcd.custom_char(0, happy_face)
+        #lcd.putchar(chr(0))
 
 1.  **Test Result**
 
@@ -687,8 +1042,32 @@ When a gas sensor detects a high concentration of dangerous gas, the buzzer will
 
 **4. Test Code**
 
-| from time import sleep_ms, ticks_ms  from machine import I2C, Pin  from i2c_lcd import I2cLcd   DEFAULT_I2C_ADDR = 0x27  i2c = I2C(scl=Pin(22), sda=Pin(21), freq=400000)  lcd = I2cLcd(i2c, DEFAULT_I2C_ADDR, 2, 16)  from machine import Pin import time gas = Pin(23, Pin.IN, Pin.PULL_UP)  while True:  gasVal = gas.value() \# Reads the value of button 1  print("gas =",gasVal) \#Print it out in the shell  lcd.move_to(1, 1)  lcd.putstr('val: {}'.format(gasVal))  if(gasVal == 1):  \#lcd.clear()  lcd.move_to(1, 0)  lcd.putstr('Safety ')  else:  lcd.move_to(1, 0)  lcd.putstr('dangerous')  time.sleep(0.1) \#delay 0.1s |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    from time import sleep_ms, ticks_ms 
+    from machine import I2C, Pin 
+    from i2c_lcd import I2cLcd 
+
+    DEFAULT_I2C_ADDR = 0x27
+
+    i2c = I2C(scl=Pin(22), sda=Pin(21), freq=400000) 
+    lcd = I2cLcd(i2c, DEFAULT_I2C_ADDR, 2, 16)
+
+    from machine import Pin
+    import time
+    gas = Pin(23, Pin.IN, Pin.PULL_UP)
+
+    while True:
+        gasVal = gas.value()  # Reads the value of button 1
+        print("gas =",gasVal)  #Print it out in the shell
+        lcd.move_to(1, 1)
+        lcd.putstr('val: {}'.format(gasVal))
+        if(gasVal == 1):
+            #lcd.clear()
+            lcd.move_to(1, 0)
+            lcd.putstr('Safety       ')
+        else:
+            lcd.move_to(1, 0)
+            lcd.putstr('dangerous')
+        time.sleep(0.1) #delay 0.1s
 
 1.  **Test Result**
 
@@ -711,8 +1090,32 @@ Its communication mode is serial data and single bus. The temperature measuremen
 
 **1. Test Code**
 
-| \# Import machine, time and dht modules.  import machine import time import dht from time import sleep_ms, ticks_ms  from machine import I2C, Pin  from i2c_lcd import I2cLcd   \#Associate DHT11 with Pin(17). DHT = dht.DHT11(machine.Pin(17))  DEFAULT_I2C_ADDR = 0x27  i2c = I2C(scl=Pin(22), sda=Pin(21), freq=400000)  lcd = I2cLcd(i2c, DEFAULT_I2C_ADDR, 2, 16)  while True:  DHT.measure() \# Start DHT11 to measure data once.  \# Call the built-in function of DHT to obtain temperature  \# and humidity data and print them in “Shell”.  print('temperature:',DHT.temperature(),'℃','humidity:',DHT.humidity(),'%')  lcd.move_to(1, 0)  lcd.putstr('T: {}'.format(DHT.temperature()))  lcd.move_to(1, 1)  lcd.putstr('H: {}'.format(DHT.humidity()))  time.sleep_ms(1000) |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    # Import machine, time and dht modules. 
+    import machine
+    import time
+    import dht
+    from time import sleep_ms, ticks_ms 
+    from machine import I2C, Pin 
+    from i2c_lcd import I2cLcd 
+
+    #Associate DHT11 with Pin(17).
+    DHT = dht.DHT11(machine.Pin(17))
+
+    DEFAULT_I2C_ADDR = 0x27
+
+    i2c = I2C(scl=Pin(22), sda=Pin(21), freq=400000) 
+    lcd = I2cLcd(i2c, DEFAULT_I2C_ADDR, 2, 16)
+
+    while True:
+        DHT.measure() # Start DHT11 to measure data once.
+    # Call the built-in function of DHT to obtain temperature
+    # and humidity data and print them in “Shell”.
+        print('temperature:',DHT.temperature(),'℃','humidity:',DHT.humidity(),'%')
+        lcd.move_to(1, 0)
+        lcd.putstr('T: {}'.format(DHT.temperature()))
+        lcd.move_to(1, 1)
+        lcd.putstr('H: {}'.format(DHT.humidity()))
+        time.sleep_ms(1000)
 
 **2. Test Result**
 
@@ -742,8 +1145,45 @@ Use IIC communication
 
 ![](media/03cab1a254dc41e5a07fda0a11daba59.png)
 
-| from machine import Pin, PWM,I2C, Pin import time from mfrc522_i2c import mfrc522   pwm = PWM(Pin(13))  pwm.freq(50) button1 = Pin(16, Pin.IN, Pin.PULL_UP) \#i2c config addr = 0x28 scl = 22 sda = 21   rc522 = mfrc522(scl, sda, addr) rc522.PCD_Init() rc522.ShowReaderDetails() \# Show details of PCD - MFRC522 Card Reader details  data = 0  while True:  if rc522.PICC_IsNewCardPresent():  \#print("Is new card present!")  if rc522.PICC_ReadCardSerial() == True:  print("Card UID:")  \#print(rc522.uid.uidByte[0 : rc522.uid.size])  for i in rc522.uid.uidByte[0 : rc522.uid.size]:  data = data + i  print(data)  if(data == 656):  pwm.duty(128)  print("open")  else:  print("error")  data = 0  btnVal1 = button1.value()  if(btnVal1 == 0):  pwm.duty(25)  print("close")  time.sleep(1)  |
-|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    from machine import Pin, PWM,I2C, Pin
+    import time
+    from mfrc522_i2c import mfrc522
+
+
+    pwm = PWM(Pin(13))  
+    pwm.freq(50)
+    button1 = Pin(16, Pin.IN, Pin.PULL_UP)
+    #i2c config
+    addr = 0x28
+    scl = 22
+    sda = 21
+        
+    rc522 = mfrc522(scl, sda, addr)
+    rc522.PCD_Init()
+    rc522.ShowReaderDetails()            # Show details of PCD - MFRC522 Card Reader details
+
+    data = 0
+
+    while True:
+        if rc522.PICC_IsNewCardPresent():
+            #print("Is new card present!")
+            if rc522.PICC_ReadCardSerial() == True:
+                print("Card UID:")
+                #print(rc522.uid.uidByte[0 : rc522.uid.size])
+                for i in rc522.uid.uidByte[0 : rc522.uid.size]:
+                    data = data + i
+            print(data)
+            if(data == 656):
+                pwm.duty(128)
+                print("open")
+            else:
+                print("error")
+            data = 0
+        btnVal1 = button1.value()
+        if(btnVal1 == 0):
+            pwm.duty(25)
+            print("close")
+        time.sleep(1)
 
 **2. Test Result**
 
@@ -767,8 +1207,65 @@ We use ![](media/9491f7768f28ee4901e6fdb83632c27c.png)as the correct password. W
 
 **2. Test Code**
 
-| \# Import machine, time and dht modules.  from machine import Pin, PWM from time import sleep_ms, ticks_ms  from machine import I2C, Pin  from i2c_lcd import I2cLcd   DEFAULT_I2C_ADDR = 0x27  i2c = I2C(scl=Pin(22), sda=Pin(21), freq=400000)  lcd = I2cLcd(i2c, DEFAULT_I2C_ADDR, 2, 16)  button1 = Pin(16, Pin.IN, Pin.PULL_UP) button2 = Pin(27, Pin.IN, Pin.PULL_UP) count = 0 time_count = 0 password = "" \#Enter password correct_password = "-.-" \#Correct password lcd.putstr("Enter password") pwm = PWM(Pin(13))  pwm.freq(50)  while True:  btnVal1 = button1.value() \# Read the value of button 1  if(btnVal1 == 0):  sleep_ms(10)  while(btnVal1 == 0):  time_count = time_count + 1 \#Start counting the pressed time of the button  sleep_ms(200) \#The time is 200ms cumulative  btnVal1 = button1.value()  if(btnVal1 == 1):  count = count + 1  print(count)  print(time_count)  if(time_count \> 3): \#If the pressed time of the button is more than 200\*3ms，add"-" to password  lcd.clear()  \#lcd.move_to(1, 1)  password = password + "-"  else:  lcd.clear()  password = password + "." \#Otherwise add "."  lcd.putstr('{}'.format(password))   time_count = 0    btnVal2 = button2.value()  if(btnVal2 == 0):  if(password == correct_password): \#If the password is correct  lcd.clear()  lcd.putstr("open")  pwm.duty(128) \#Open the door  password = "" \#Remove the password  sleep_ms(1000)  else: \#If the password is wrong  lcd.clear()  lcd.putstr("error")  pwm.duty(25) \#Close the door  sleep_ms(2000)  lcd.clear()  lcd.putstr("enter again")  password = "" \#Remove the password  |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    # Import machine, time and dht modules. 
+    from machine import Pin, PWM
+    from time import sleep_ms, ticks_ms 
+    from machine import I2C, Pin 
+    from i2c_lcd import I2cLcd 
+
+    DEFAULT_I2C_ADDR = 0x27
+
+    i2c = I2C(scl=Pin(22), sda=Pin(21), freq=400000) 
+    lcd = I2cLcd(i2c, DEFAULT_I2C_ADDR, 2, 16)
+
+    button1 = Pin(16, Pin.IN, Pin.PULL_UP)
+    button2 = Pin(27, Pin.IN, Pin.PULL_UP)
+    count = 0
+    time_count = 0
+    password = ""   #Enter password
+    correct_password = "-.-"  #Correct password
+    lcd.putstr("Enter password")
+    pwm = PWM(Pin(13))  
+    pwm.freq(50)
+
+    while True:
+        btnVal1 = button1.value()  # Read the value of button 1
+        if(btnVal1 == 0):
+            sleep_ms(10)
+            while(btnVal1 == 0):
+                time_count = time_count + 1  #Start counting the pressed time of the button
+                sleep_ms(200)                #The time is 200ms cumulative
+                btnVal1 = button1.value()
+                if(btnVal1 == 1):
+                    count = count + 1
+                    print(count)
+                    print(time_count)
+                    if(time_count > 3):      #If the pressed time of the button is more than 200*3ms，add"-" to  password
+                        lcd.clear()
+                        #lcd.move_to(1, 1)
+                        password = password + "-"
+                    else:
+                        lcd.clear()
+                        password = password + "."  #Otherwise add "."
+                    lcd.putstr('{}'.format(password)) 
+                    time_count = 0
+                    
+        btnVal2 = button2.value()
+        if(btnVal2 == 0):
+            if(password == correct_password):  #If the password is correct
+                lcd.clear()
+                lcd.putstr("open")
+                pwm.duty(128)  #Open the door
+                password = ""  #Remove the password
+                sleep_ms(1000)
+            else:              #If the password is wrong
+                lcd.clear()
+                lcd.putstr("error")
+                pwm.duty(25)  #Close the door
+                sleep_ms(2000)
+                lcd.clear()
+                lcd.putstr("enter again")
+                password = ""  #Remove the password
 
 1.  **Test Result**
 
@@ -794,8 +1291,33 @@ Note: ssiD and password in the code should be filled with your own WiFi name and
 
 ![](media/278cbdc272b5cc1a6461a7934eabe5c0.png)
 
-| import time import network \#Import network module  \#Enter correct router name and password ssidRouter = 'ChinaNet-2.4G-0DF0' \#Enter the router name passwordRouter = 'ChinaNet@233' \#Enter the router password  def STA_Setup(ssidRouter,passwordRouter):  print("Setup start")  sta_if = network.WLAN(network.STA_IF) \#Set ESP32 in Station mode  if not sta_if.isconnected():  print('connecting to',ssidRouter) \#Activate ESP32’s Station mode, initiate a connection request to the router \#and enter the password to connect.  sta_if.active(True)  sta_if.connect(ssidRouter,passwordRouter) \#Wait for ESP32 to connect to router until they connect to each other successfully.  while not sta_if.isconnected():  pass \#Print the IP address assigned to ESP32 in “Shell”.  print('Connected, IP address:', sta_if.ifconfig())  print("Setup End")  try:  STA_Setup(ssidRouter,passwordRouter) except:  sta_if.disconnect() |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    import time
+    import network #Import network module
+
+    #Enter correct router name and password
+    ssidRouter     = 'ChinaNet-2.4G-0DF0' #Enter the router name
+    passwordRouter = 'ChinaNet@233' #Enter the router password
+
+    def STA_Setup(ssidRouter,passwordRouter):
+        print("Setup start")
+        sta_if = network.WLAN(network.STA_IF) #Set ESP32 in Station mode
+        if not sta_if.isconnected():
+            print('connecting to',ssidRouter)
+    #Activate ESP32’s Station mode, initiate a connection request to the router
+    #and enter the password to connect.
+            sta_if.active(True)
+            sta_if.connect(ssidRouter,passwordRouter)
+    #Wait for ESP32 to connect to router until they connect to each other successfully.
+            while not sta_if.isconnected():
+                pass
+    #Print the IP address assigned to ESP32 in “Shell”.
+        print('Connected, IP address:', sta_if.ifconfig())
+        print("Setup End")
+
+    try:
+        STA_Setup(ssidRouter,passwordRouter)
+    except:
+        sta_if.disconnect()
 
 **3. Test Result**
 
