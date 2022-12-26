@@ -1,11 +1,10 @@
 
 .. toctree::
    :maxdepth: 5
-   :caption: KS5009 Keyestudio Smart Home Kit for ESP32 Python
+   :caption: KS5009  ESP32 Smart Home Kit for MicroPython
 
-   Get started with Arduino.md
-   2. Install the Smart Home/How to install the smart home.md
-   Python Tutorials.md
+
+   KS5009-Python.md
 
 
 
