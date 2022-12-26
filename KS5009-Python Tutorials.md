@@ -1277,7 +1277,7 @@ If other incorrect passwords are entered, the door will be closed and the LCD160
 
 The easiest way to access the Internet is to use a WiFi to connect. The ESP32 main control board comes with a WiFi module, making our smart home accessible to the Internet easily.
 
-![QQ图片20220112155539-2](media/f74baff97695aa2ee33a8c19370d2547.png)
+![](media/f74baff97695aa2ee33a8c19370d2547.png)
 
 #### Project 12.1 Smart Home
 
