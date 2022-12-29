@@ -271,6 +271,8 @@ LED is also the light-emitting diode, which can be made into an electronic modul
 
 | Yellow LED | 12 |
 |------------|----|
+|            |    |
+
 
 #### Project 1.1 LED Flashing
 
@@ -446,6 +448,7 @@ values 0 or 1. And it will be sensed when people are moving.
 
 | PIR motion sensor  |  14 |
 |--------------------|-----|
+|                    |     |
 
 #### Project 3.1 Read the PIR Motion Sensor
 
@@ -515,6 +518,7 @@ In this project, we will work to play a piece of music by using it.
 
 |  Passive Buzzer | 25 |
 |-----------------|----|
+|                 |    |
 
 #### Project 4.1 Play Happy Birthday
 
@@ -705,6 +709,7 @@ What’s more, the pixel point contains a data latch signal shaping amplifier dr
 
 | SK6812 | 26 |
 |--------|----|
+|        |    |
 
 #### Project 6.1 Control SK6812
 
@@ -1039,6 +1044,7 @@ When a gas sensor detects a high concentration of dangerous gas, the buzzer will
 
 | Gas Sensor | 23 |
 |------------|----|
+|            |    |
 
 **4. Test Code**
 
@@ -1085,6 +1091,7 @@ Its communication mode is serial data and single bus. The temperature measuremen
 
 | Temperature and Humidity Sensor  | 17 |
 |----------------------------------|----|
+|                                  |    |
 
 #### Project 9.1 Temperature and Humidity Tester
 
