@@ -256,31 +256,30 @@ we will first learn how to control LED.
 
 ![](media/0cda68ae8719d9b6c1bb79d64160d31d.png)
 
-1.  **Working Principle**
+**1.Working Principle**
 
 LED is also the light-emitting diode, which can be made into an electronic module. It will shine if we control pins to output high level, otherwise it will be off.
 
-1.  [**Parameter**](C:/Users/NINGMEI/AppData/Local/youdao/dict/Application/8.10.7.0/resultui/html/index.html#/javascript:;)**s**
+**2.Parameters**
 
 | Working voltage | DC 3\~5V |
 |-----------------|----------|
 | Working current | \<20mA   |
 | Power           | 0.1W     |
 
-1.  **Control Pin**
+**3.Control Pin**
 
-| Yellow LED | 12 |
-|------------|----|
-|            |    |
-
+| Yellow LED connected to io12|  
+|------------|
+|![](media/1.1.png)|
 
 #### Project 1.1 LED Flashing
 
-1.  **Description**
+**1.Description**
 
 We can make the LED pin output high level and low level to make the LED flash.
 
-1.  **Test Code**
+**2.Test Code**
 
         from machine import Pin
         import time
@@ -292,13 +291,13 @@ We can make the LED pin output high level and low level to make the LED flash.
             led.value(0)# turn off led
             time.sleep(1)# delay 1s
 
-1.  Open the sample code
+Open the sample code
 
 ![](media/39658e26aad2c9794bd3db9df3c70732.png)
 
 ![](media/166384572a1fa595858d933aea5af710.png)
 
-1.  Operation and test result
+**4.Operation and test result**
 
 Click the button
 
@@ -308,7 +307,7 @@ We can see that the yellow LED is flashing .
 
 #### Project 1.2 Breathing LED
 
-1.  **Description**
+**1.Description**
 
 A“breathing LED”is a phenomenon where an LED's brightness smoothly changes from dark to bright and back to dark, continuing to do so and giving the illusion of an LED“breathing. However, how to control LED’s brightness?
 
@@ -316,7 +315,14 @@ It makes sense to take advantage of PWM. Output the number of high level and low
 
 ![](media/704984700612966b997127cb9bde5c96.jpeg)
 
-1.  **Test Code**
+
+**2.Control Pin**
+
+| Yellow LED connected to io12|  
+|------------|
+|![](media/1.1.png)|
+
+**3.Test Code**
 
         import time
         from machine import Pin,PWM
@@ -342,7 +348,7 @@ It makes sense to take advantage of PWM. Output the number of high level and low
         #deinit() needs to be called to turned OFF the timer. Otherwise, the PWM may fail to work next time.
             pwm.deinit()
 
-1.  **Test Result**
+**4.Test Result**
 
 Click the button
 
@@ -352,21 +358,23 @@ The LED gradually gets dimmer then brighter, cyclically, like human breathe.
 
 ### Project 2: Table Lamp
 
-1.  **Description**
+**1.Description**
 
 The common table lamp uses LED lights and buttons, which can control the light on and off pressing the button.
 
-1.  **Button Principle**
+**2.Button Principle**
 
 The button module is a digital sensor, which can only read 0 or 1. When the module is not pressed, it is in a high level state, that is, 1, when pressed, it is a low level 0.
 
 ![](media/41f565d4f355abb96e105119660e80ba.png)
 
-1.  **Pins of the Button**
+**3.Pins of the Button**
 
 | Button 1 | 16 |
 |----------|----|
 | Button 2 | 27 |
+
+![](media/2.1.png)
 
 #### Project 2.1 Read the Button
 
@@ -398,7 +406,15 @@ Click the run button, then you can see the status values of button1 and button 2
 
 For common simple table lamp, click the button it will be opened, click it again, the lamp will be closed.
 
-1.  **Test Code**
+**2.Pins of the project**
+
+| Button   | 16 |
+|----------|----|
+| LED      | 12 |
+
+![](media/2.2.png)
+
+**3.Test Code**
 
 Calculate the clicked button times and take the remainder of 2, you can get 0 or 1 two state values.
 
@@ -426,7 +442,7 @@ Calculate the clicked button times and take the remainder of 2, you can get 0 or
             led.value(0)
         time.sleep(0.1) #delay 0.1s
 
-1.  **Test Result**
+**4.Test Result**
 
 The shell will print out the clicked button times, then click the button once, the LED will be on, click it again, it will be off.
 
@@ -444,17 +460,19 @@ values 0 or 1. And it will be sensed when people are moving.
 
 ![](media/c1518252606b111bfa66878a2bfcc965.png)
 
-1.  **Control Pin**
+**2.Control Pin**
 
-| PIR motion sensor  |  14 |
+| PIR motion sensor connected to io14   |
 |--------------------|-----|
-|                    |     |
+|           ![](media/3.1.png)          |
 
 #### Project 3.1 Read the PIR Motion Sensor
 
+**1. Description**
+
 We will print out the value of the PIR motion sensor through the serial monitor.
 
-1.  **Test Code**
+**2.Test Code**
 
         from machine import Pin
         import time
@@ -469,7 +487,7 @@ We will print out the value of the PIR motion sensor through the serial monitor.
                 print("No one!")
             time.sleep(0.1)
 
-1.  **Test Result**
+**3.Test Result**
 
 When you stand still in front of the sensor, the reading value is 0, move a little, it will change to 1.
 
@@ -477,9 +495,19 @@ When you stand still in front of the sensor, the reading value is 0, move a litt
 
 #### Project 3.2 PIR Motion Sensor
 
+**1. Description**
+
 If someone moves in front of the sensor, the LED will light up.
 
-1.  **Test Code**
+**2.Pins of the project**
+
+| PIR      | 14 |
+|----------|----|
+| LED      | 12 |
+
+![](media/3.2.png)
+
+**3.Test Code**
 
         from machine import Pin
         import time
@@ -496,7 +524,7 @@ If someone moves in front of the sensor, the LED will light up.
                 led.value(0)
             time.sleep(0.1)
 
-1.  **Test Result**
+**4.Test Result**
 
 Move your hand in front of the sensor, the LED will turn on. After a few seconds of immobility, the LED will turn off.
 
@@ -514,15 +542,16 @@ In this project, we will work to play a piece of music by using it.
 
 ![](media/2e6fd6b7975ef84ab94eee896161347b.png)
 
-1.  **Control Pin**
 
-|  Passive Buzzer | 25 |
+**3.Control Pin**
+
+|  Passive Buzzer connected to io25 |
 |-----------------|----|
-|                 |    |
+|      ![](media/4.1.png)           |    |
 
 #### Project 4.1 Play Happy Birthday
 
-**1. Test Code**
+**4. Test Code**
 
     from machine import Pin, PWM
     from time import sleep
@@ -575,17 +604,17 @@ In this project, we will work to play a piece of music by using it.
     sleep(0.5)
     buzzer.duty(0)
 
-**2. Test Result**
+**5. Test Result**
 
 The passive buzzer will play happy Birthday.
 
 ### Project 5: Automatic Doors and Windows
 
-1.  **Description**
+**1.Description**
 
 Automatic doors and windows need power device, which will become more automatic with a 180 degree servo and some sensors. Adding a raindrop sensor, you can achieve the effect of closing windows automatically when raining. If adding a RFID, we can realize the effect of swiping to open the door and so on.
 
-1.  **Component Knowledge**
+**2.Component Knowledge**
 
 **Servo:** Servo is a position servo [driver](C:/Users/NINGMEI/AppData/Local/youdao/dict/Application/8.10.7.0/resultui/html/index.html#/javascript:;) device consists of a housing, a circuit board, a coreless motor, a gear and a position detector.
 
@@ -605,11 +634,13 @@ In general, servo has three lines in brown, red and orange. The brown wire is gr
 
 ![](media/6cbf6f177ea204f7632b872497fde010.png)
 
-1.  **Pin**
+**3.Pin**
 
 | The servo of the window | 5  |
 |-------------------------|----|
 | The servo of the door   | 13 |
+
+![](media/5.1.png)
 
 #### Project 5.1 Control the Door
 
@@ -646,15 +677,23 @@ The servo of the door turns with the door, back and forth
 
 #### Project 5.2 Close the Window
 
-1.  **Description**
+**1.Description**
 
 We will work to use a servo and a raindrop sensor to make an device closing windows automatically when raining.
 
-1.  **Component Knowledge**
+**2.Component Knowledge**
 
 **Raindrop Sensor:** This is an analog input module, the greater the area covered by water on the detection surface, the greater the value returned (range 0\~4096).
 
-1.  **Test Code**
+**3.Pin**
+
+| The servo of the window | 5  |
+|-------------------------|----|
+| The servo of the raindrop | 34 |
+
+![](media/5.2.png)
+
+**4.Test Code**
 
         # Import Pin, ADC and DAC modules.
         from machine import ADC,Pin,DAC,PWM
@@ -683,19 +722,19 @@ We will work to use a servo and a raindrop sensor to make an device closing wind
         except:
             pass
 
-1.  **Test Result**
+**5.Test Result**
 
 At first, the window opens automatically, and when you touch the raindrop sensor with your hand (which has water on the skin), the window will close.
 
 ### Project 6: Atmosphere Lamp
 
-1.  **Description**
+**1.Description**
 
 The atmosphere lamp of smart home is 4 SK6812RGB LEDs. RGB LED belongs to a simple luminous module, which can adjust the color to bring out the lamp effect of different colors. Furthermore, it can be widely used in buildings, bridges, roads, gardens, courtyards, floors and other fields of decorative lighting and venue layout, Christmas, Halloween, Valentine's Day, Easter, National Day as well as other festivals during the atmosphere and other scenes.
 
 In this experiment, we will make various lighting effects.
 
-1.  **Component Knowledge**
+**2.Component Knowledge**
 
 From the schematic diagram, we can see that these four RGB LEDs are all connected in series. In fact, no matter how many they are, we can use a pin to control a RGB LED and let it display any color. Each RGBLED is an independent pixel, composed of R, G and B colors, which can achieve 256 levels of brightness display and complete the full true color display of 16777216 colors.
 
@@ -705,11 +744,11 @@ What’s more, the pixel point contains a data latch signal shaping amplifier dr
 
 ![](media/c0df93f61c6b9272f62b1847ccfbdb10.png)
 
-1.  **Pin**
+**3.Pin**
 
-| SK6812 | 26 |
+| SK6812 connectet to io26 |
 |--------|----|
-|        |    |
+|   ![](media/6.1.png)     |    |
 
 #### Project 6.1 Control SK6812
 
@@ -750,11 +789,20 @@ The atmosphere lamps of the smart home will display red,greenish blue as well as
 
 #### Project 6.2 Button
 
-1.  **Description**
+**1.Description**
 
 There are two switch buttons to change the color of the atmosphere lamp.
 
-1.  **Test Code**
+**2.Pin**
+
+| button1     | 16  |
+|-------------------|----|
+| button2     | 27 |
+| 6812 RGB    | 26 |
+
+![](media/6.2.png)
+
+**3.Test Code**
 
         #Import Pin, neopiexl and time modules.
         from machine import Pin
@@ -820,40 +868,42 @@ There are two switch buttons to change the color of the atmosphere lamp.
             elif(count == 4):
                 func_color(4)
 
-1.  **Test Result**
+**4.Test Result**
 
 We can switch the color of the atmosphere lamp by clicking buttons 1 and 2.
 
 ### Project 7: Fan
 
-1.  **Description**
+**1.Description**
 
 In this project, we will learn how to make a small fan.
 
-1.  **Component Knowledge**
+**2.Component Knowledge**
 
 The small fan uses a 130 DC motor and safe fan blades. You can use PWM output to control the fan speed.
 
 ![](media/33da52918e88862a94035d61a9050f2e.png)
 
-1.  **Control Method**
+**3.Control Method**
 
 Two pins are required to control the motor of the fan, one for INA and two for INB. The PWM value range is 0\~255. When the PWM output of the two pins is different, the fan can rotate.
 
 | INA - INB \<= -45 | Rotate clockwise                                                                                                               |
 |-------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| INA - INB \>= 45  | Rotate [anticlockwise](C:/Users/NINGMEI/AppData/Local/youdao/dict/Application/8.10.7.0/resultui/html/index.html#/javascript:;) |
+| INA - INB \>= 45  | Rotate anticlockwise |
 | INA ==0, INB == 0 | Stop                                                                                                                           |
 
-1.  **Control Pins**
+**4.Control Pins**
 
 | INA | 19 |
 |-----|----|
 | INB | 18 |
 
+![](media/7.1.png)
+
 #### Project 7.1 Control the Fan
 
-We can control the [anticlockwise](C:/Users/NINGMEI/AppData/Local/youdao/dict/Application/8.10.7.0/resultui/html/index.html#/javascript:;) and clockwise rotation speed of the fan.
+We can control the anticlockwise and clockwise rotation speed of the fan.
 
 **1. Test Code**
 
@@ -897,7 +947,15 @@ speeds.
 
 One button switches the fan on and the other button controls the speed of the fan.
 
-**1. Test Code**
+**1.Control Pins**
+
+| INA | 19 |
+|-----|----|
+| INB | 18 |
+| button1 | 16 |
+| button2 | 27 |
+
+**2. Test Code**
 
     from machine import Pin,PWM
     import time
@@ -930,7 +988,7 @@ One button switches the fan on and the other button controls the speed of the fa
         INA.deinit()
         INB.deinit()
 
-**2. Test Result**
+**3. Test Result**
 
 Click button 1, the fan starts to rotate, click button 2, the
 
@@ -938,29 +996,31 @@ speed can be adjusted(there are three different speeds), press the button 1 agai
 
 ### Project 8: LCD1602 Display
 
-1.  **Description**
+**1.Description**
 
 As we all know, screen is one of the best ways for people to interact with electronic devices.
 
-1.  **Component Knowledge**
+**2.Component Knowledge**
 
 1602 is a line that can display 16 characters. There are two lines, which use IIC communication protocol.
 
 ![](media/066e093f1711ada67d3309ddc9bdc66e.png)
 
-1.  **Control Pins**
+**3.Control Pins**
 
 | SDA | SDA |
 |-----|-----|
 | SCL | SCL |
 
-#### Project 8.1 Display [Character](C:/Users/NINGMEI/AppData/Local/youdao/dict/Application/8.10.7.0/resultui/html/index.html#/javascript:;)s
+![](media/8.1.png)
 
-1.  **Description**
+#### Project 8.1 Display Characters
+
+**1.Description**
 
 We will use library file i2c_lcd.py and lcd_api.py, which should be saved in the ESP32 memory.
 
-1.  **Operations**
+**2.Operations**
 
 Open the i2c_lcd.py and lcd_api.py
 
@@ -976,7 +1036,7 @@ The saved name id i2c_lcd.py and lcd_api.py
 
 ![](media/c7a374c92ed24402abd0d8c479a7d132.png)
 
-1.  **Test Code**
+**3.Test Code**
 
         from time import sleep_ms, ticks_ms 
         from machine import I2C, Pin 
@@ -1024,7 +1084,7 @@ The saved name id i2c_lcd.py and lcd_api.py
         #lcd.custom_char(0, happy_face)
         #lcd.putchar(chr(0))
 
-1.  **Test Result**
+**4.Test Result**
 
 The first line of the LCD1602 shows hello and the second line shows keyestudio.
 
@@ -1040,11 +1100,15 @@ When a gas sensor detects a high concentration of dangerous gas, the buzzer will
 
 ![](media/4550c4935e6c08e595a1e8707b54b551.png)
 
-**3. Control Pin**
+**3.Control Pins**
 
-| Gas Sensor | 23 |
-|------------|----|
-|            |    |
+| SDA | SDA |
+|-----|-----|
+| SCL | SCL |
+| gas module | 23 |
+| buzzer     | 25 |
+
+![](media/8.2.png)
 
 **4. Test Code**
 
@@ -1075,23 +1139,23 @@ When a gas sensor detects a high concentration of dangerous gas, the buzzer will
             lcd.putstr('dangerous')
         time.sleep(0.1) #delay 0.1s
 
-1.  **Test Result**
+**5.Test Result**
 
 The screen displays "safety" in normal state. However, when the gas sensor detects some dangerous gases, such as carbon monoxide, at a certain concentration, the buzzer will sound an alarm and the screen displays "dangerous".
 
 ### Project 9: Temperature and Humidity Sensor
 
-1.  **Component Knowledge**
+**1.Component Knowledge**
 
 Its communication mode is serial data and single bus. The temperature measurement range is -20 \~ +60℃, accuracy is ±2℃. However, the humidity range is 5 \~ 95%RH, the accuracy is ±5%RH.
 
 ![](media/0b9c44c3e4f3706638b9cf15871b861c.png)
 
-1.  **Control Pin**
+**2.Control Pin**
 
-| Temperature and Humidity Sensor  | 17 |
+| Temperature and Humidity Sensor io17 |
 |----------------------------------|----|
-|                                  |    |
+|     ![](media/9.1.png)           |    |
 
 #### Project 9.1 Temperature and Humidity Tester
 
@@ -1130,7 +1194,7 @@ The LCD1602 displays the temperature (T = \*\* ° C) and humidity (H = \*\* %RH)
 
 ### Project 10: RFID RC522 Module
 
-1.  **Component Knowledge**
+**1.Component Knowledge**
 
 Radio frequency identification, the card reader is composed of a radio frequency module and a high-level magnetic field. The Tag transponder is a sensing device, which doesn’t contain a battery. It only contains tiny integrated circuit chips and media for storing data and antennas for receiving and transmitting signals.
 
@@ -1138,13 +1202,17 @@ To read the data in the tag, first put it into the reading range of the card rea
 
 ![](media/982ac6a9da0e8f55465ca5a969ac0dfe.png)
 
-1.  **Control Pins**
+**2.Control Pins**
 
 Use IIC communication
 
-| SDA | SDA |
+| 1602LCD | I2C |
 |-----|-----|
-| SCL | SCL |
+| RFID | I2C |
+| BUTTON |16 |
+| SEVRO | 13 |
+
+![](media/10.png)
 
 #### Project 10.1 Open the Door
 
@@ -1212,7 +1280,19 @@ The Morse code corresponds to the following characters:
 
 We use ![](media/9491f7768f28ee4901e6fdb83632c27c.png)as the correct password. What’s more, there is a button library file OneButton, which is very simple to click, double click, long press and other functions. For Morse password, click is “.”, long press and release is “-”.
 
-**2. Test Code**
+**2.Control Pins**
+
+Use IIC communication
+
+| 1602LCD | I2C |
+|-----|-----|
+| BUTTON1 | 16 |
+| BUTTON2 | 27 |
+| SEVRO   | 13 |
+
+![](media/11.png)
+
+**3. Test Code**
 
     # Import machine, time and dht modules. 
     from machine import Pin, PWM
@@ -1274,7 +1354,7 @@ We use ![](media/9491f7768f28ee4901e6fdb83632c27c.png)as the correct password. W
                 lcd.putstr("enter again")
                 password = ""  #Remove the password
 
-1.  **Test Result**
+**4.Test Result**
 
 At first, the LCD1602 displays "Enter password", then click or long press button 1 to tap the password. If we input the correct password "-.-", then click button 2, the door will open, and the LCD1602 will display "open".
 
